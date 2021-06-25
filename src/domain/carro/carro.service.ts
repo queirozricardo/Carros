@@ -13,7 +13,7 @@ class CarroService {
 
     return await CarroSchema
       .create(carro)
-      .then(carroCriado => Util.cadastro(carroCriado, 'Criado com sucesso') )
+      .then(carroCriado => Util.cadastro(carroCriado, 'Criado com sucesso'))
       .catch(error => Util.erro(error))
   }
 
@@ -22,7 +22,7 @@ class CarroService {
 
     return await CarroSchema
       .findOneAndUpdate({ _id: id }, carro)
-      .then(carroCriado => Util.edicao(carroCriado, 'Editado com sucesso') )
+      .then(carroCriado => Util.edicao(carroCriado, 'Editado com sucesso'))
       .catch(error => Util.erro(error))
   }
 
@@ -36,17 +36,28 @@ class CarroService {
 
   async buscarPorAtributo(marca: string, model: string): Promise<any> {
 
-    const teste = `marca: "${marca}"` 
+    const teste = `marca: "${marca}"`
     console.log('TESTE', teste);
 
-    var query =  { marca: marca } 
+    var query = {
+      marca: marca
+    }
 
     return await CarroSchema
-      .find(query)
+      .find({
+        $or: [
+          {
+            marca
+          },
+          {
+            model
+          }
+        ]
+      })
       .then(carro => Util.recuperar(carro))
       .catch(error => Util.erro(error))
   }
 
 }
 
-export default new CarroService() 
+export default new CarroService()
