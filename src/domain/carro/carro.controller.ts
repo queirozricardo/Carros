@@ -40,9 +40,17 @@ class CarroController {
 
   async buscarPorAtributo(req: Request, res: Response) {
     try {
-        const { marca, model } = req.query
+        const { marca, model, versao, anoIni, anoFim, km, cambio, precoini, precofim } = req.query
 
-        const { status, result } = await CarroService.buscarPorAtributo(marca.toString(), model.toString())
+        const { status, result } = await CarroService.buscarPorAtributo(marca, 
+                                                                        model, 
+                                                                        versao, 
+                                                                        anoIni, 
+                                                                        anoFim,
+                                                                        km, 
+                                                                        cambio, 
+                                                                        precoini,
+                                                                        precofim)
         return res.status(status).send({ result })
     } catch (error) {
         return res.status(error.status).send({ error: error.message })

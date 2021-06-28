@@ -34,12 +34,62 @@ class CarroService {
       .catch(error => Util.erro(error))
   }
 
-  async buscarPorAtributo(marca: string, model: string): Promise<any> {
+  async buscarPorAtributo(marca: any, model: any, versao: any, 
+                          anoIni: any, anoFim: any, km: any, 
+                          cambio: any, precoIni: any, precoFim: any): Promise<any> {
 
-    const teste = `marca: "${marca}"` 
-    console.log('TESTE', teste);
+    var query =  {} 
+    console.log('MARCA', marca)
 
-    var query =  { marca: marca } 
+    if (marca) {
+      query = {
+      marca
+      }
+    }
+
+    if (model) {
+      query = {
+        ...query,        
+          model        
+      }
+    }
+
+    if (versao) {
+      query = {
+        ...query,        
+        versao        
+      }
+    }
+
+    if (anoIni && anoFim) {
+      query = {
+        ...query,        
+        ano: {$gte: anoIni, $lte: anoFim}          
+      }
+    }
+
+    if (km) {
+      query = {
+        ...query,        
+          km        
+      }
+    }
+
+    if (cambio) {
+      query = {
+        ...query,        
+        cambio        
+      }
+    }
+
+    if (precoIni && precoFim) {
+      query = {
+        ...query,        
+        precovenda: {$gte: precoIni, $lte: precoFim}        
+      }
+    }
+
+    console.log('query::', query)
 
     return await CarroSchema
       .find(query)
